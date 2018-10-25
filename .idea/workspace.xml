@@ -21,12 +21,17 @@
         <entry file="file://$PROJECT_DIR$/src/workingReadOnlyDTIDChange">
           <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
             <state relative-caret-position="15">
               <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
 =======
             <state relative-caret-position="345">
               <caret line="23" column="43" lean-forward="false" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
 >>>>>>> 1st commit
+=======
+            <state relative-caret-position="345">
+              <caret line="23" column="43" lean-forward="false" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+>>>>>>> 41ae817356750b8a61154390e5752d62087ba62c
               <folding />
             </state>
           </provider>
@@ -137,19 +142,27 @@
       <option name="presentableId" value="Default" />
       <updated>1540481560931</updated>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <workItem from="1540481562850" duration="257000" />
 =======
       <workItem from="1540481562850" duration="362000" />
 >>>>>>> 1st commit
+=======
+      <workItem from="1540481562850" duration="362000" />
+>>>>>>> 41ae817356750b8a61154390e5752d62087ba62c
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="257000" />
 =======
     <option name="totallyTimeSpent" value="362000" />
 >>>>>>> 1st commit
+=======
+    <option name="totallyTimeSpent" value="362000" />
+>>>>>>> 41ae817356750b8a61154390e5752d62087ba62c
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="964" extended-state="0" />
@@ -180,12 +193,17 @@
     <entry file="file://$PROJECT_DIR$/src/workingReadOnlyDTIDChange">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <state relative-caret-position="15">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
 =======
         <state relative-caret-position="345">
           <caret line="23" column="43" lean-forward="false" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
 >>>>>>> 1st commit
+=======
+        <state relative-caret-position="345">
+          <caret line="23" column="43" lean-forward="false" selection-start-line="23" selection-start-column="43" selection-end-line="23" selection-end-column="43" />
+>>>>>>> 41ae817356750b8a61154390e5752d62087ba62c
           <folding />
         </state>
       </provider>
