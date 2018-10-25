@@ -27,7 +27,7 @@ import sagaDTID from './saga';
 import mapDispatchToProps from 'mapDispatchToProps';
 import sagaDTID from 'saga';
 
-const fieldAttributes;
+const fieldAttributes = new FieldAttributes();
 
 const stateToProps = state => ({ ...state });
 const saga = createSagaMiddleware();
