@@ -1,4 +1,28 @@
 
+import React, { PureComponent } from 'react';
+import { Provider, connect } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { shape, string, func } from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import first from 'lodash/first';
+import defer from 'lodash/defer';
+import cloneDeep from 'lodash/cloneDeep';
+import extend from 'lodash/extend';
+import { Map, fromJS } from 'immutable';
+import EditComponent from 'components/Edit/Template-1';
+import initialStateGenerator from 'components/Edit/Template-1/initialStateGenerator';
+import generateEmptyData, { settingsChangeData } from 'components/Edit/Template-1/generateEmptyData';
+import {
+  onEditIdChangeAction,
+  changeTitleAction,
+  removeErrorAction,
+  dataInit,
+  changedInit,
+  onSelectedTabChange,
+  settingDataAction,
+  // onFieldValueChange,
+} from 'components/Edit/Template-1/action';
 
 const fieldAttributes = new FieldAttributes();
 
