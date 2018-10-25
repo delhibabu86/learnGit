@@ -1,31 +1,5 @@
 
-import React, { PureComponent } from 'react';
-import { Provider, connect } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { shape, string, func } from 'prop-types';
-import { Map, fromJS } from 'immutable';
-import EditComponent from 'components/Edit/Template-1';
-import initialStateGenerator from 'components/Edit/Template-1/initialStateGenerator';
-import generateEmptyData, { settingsChangeData } from 'components/Edit/Template-1/generateEmptyData';
-import {
-  onEditIdChangeAction,
-  changeTitleAction,
-  removeErrorAction,
-  dataInit,
-  changedInit,
-  onSelectedTabChange,
-  settingDataAction,
-  // onFieldValueChange,
-} from 'components/Edit/Template-1/action';
-import { EDIT_MODE } from 'common/Constants';
-import reducers from 'components/Edit/Template-1/reducers';
-import FieldAttributes from 'web/common/fieldAttribute';
-import mapDispatchToProps from './mapDispatchToProps';
-import originalSettingsData from './settings';
-import sagaDTID from './saga';
-import mapDispatchToProps from 'mapDispatchToProps';
-import sagaDTID from 'saga';
+
 
 const fieldAttributes = new FieldAttributes();
 
@@ -36,7 +10,16 @@ saga.run(sagaDTID);
 const EditContainer = connect(stateToProps, mapDispatchToProps)(EditComponent);
 
 export default class EditDTID extends PureComponent {
-  
+    static propTypes = {
+      match: shape({
+        params: shape({
+          editId: string,
+        }).isRequired,
+      }).isRequired,
+      history: shape({
+        push: func,
+      }).isRequired,
+    };
   componentDidMount() {
     const { editId } = this.props.match.params;
     const originalChangedData = settingsChangeData(settingsData);
@@ -48,7 +31,7 @@ export default class EditDTID extends PureComponent {
       store.dispatch(changedInit(cloneDeep(originalChangedData)));
 
       defer(async () => {
-        const pageTitle = 'DTID Management';
+        const pageTitle = 'DTID';
         store.dispatch(onEditIdChangeAction(editId));
         store.dispatch(changeTitleAction(pageTitle));
         const settingsDataImmtJS = Map(fromJS(store.getState().settingsData));
