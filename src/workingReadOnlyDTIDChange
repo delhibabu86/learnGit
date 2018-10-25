@@ -31,7 +31,6 @@ export default class EditDTID extends PureComponent {
       store.dispatch(changedInit(cloneDeep(originalChangedData)));
 
       defer(async () => {
-        const pageTitle = 'DTID';
         store.dispatch(onEditIdChangeAction(editId));
         store.dispatch(changeTitleAction(pageTitle));
         const settingsDataImmtJS = Map(fromJS(store.getState().settingsData));
