@@ -25,7 +25,7 @@ import mapDispatchToProps from './mapDispatchToProps';
 import originalSettingsData from './settings';
 import sagaDTID from './saga';
 import mapDispatchToProps from 'mapDispatchToProps';
-
+import sagaDTID from 'saga';
 
 const fieldAttributes = new FieldAttributes();
 
