@@ -1,25 +1,6 @@
 
-
-
-const fieldAttributes;
-
-
-const store = createStore(reducers, initialState, applyMiddleware(saga));
-saga.run(sagaDTID);
-
-const EditContainer = connect(stateToProps, mapDispatchToProps)(EditComponent);
-
 export default class EditDTID extends PureComponent {
-    static propTypes = {
-      match: shape({
-        params: shape({
-          editId: string,
-        }).isRequired,
-      }).isRequired,
-      history: shape({
-        push: func,
-      }).isRequired,
-    };
+
   componentDidMount() {
     const { editId } = this.props.match.params;
     const originalChangedData = settingsChangeData(settingsData);
