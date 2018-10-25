@@ -1,0 +1,150 @@
+import React, { PureComponent } from 'react';
+import { Provider, connect } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { shape, string, func } from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
+import first from 'lodash/first';
+import defer from 'lodash/defer';
+import cloneDeep from 'lodash/cloneDeep';
+import extend from 'lodash/extend';
+import { Map, fromJS } from 'immutable';
+import EditComponent from 'components/Edit/Template-1';
+import initialStateGenerator from 'components/Edit/Template-1/initialStateGenerator';
+import generateEmptyData, { settingsChangeData } from 'components/Edit/Template-1/generateEmptyData';
+import {
+  onEditIdChangeAction,
+  changeTitleAction,
+  removeErrorAction,
+  dataInit,
+  changedInit,
+  onSelectedTabChange,
+  settingDataAction,
+  // onFieldValueChange,
+} from 'components/Edit/Template-1/action';
+import { EDIT_MODE } from 'common/Constants';
+import reducers from 'components/Edit/Template-1/reducers';
+import FieldAttributes from 'web/common/fieldAttribute';
+import mapDispatchToProps from './mapDispatchToProps';
+import originalSettingsData from './settings';
+import sagaDTID from './saga';
+
+const fieldAttributes = new FieldAttributes();
+
+const stateToProps = state => ({ ...state });
+const saga = createSagaMiddleware();
+const settingsData = cloneDeep(originalSettingsData);
+const initialState = extend(initialStateGenerator(settingsData), {
+  mode: EDIT_MODE,
+});
+
+const store = createStore(reducers, initialState, applyMiddleware(saga));
+saga.run(sagaDTID);
+
+const EditContainer = connect(stateToProps, mapDispatchToProps)(EditComponent);
+
+export default class EditDTID extends PureComponent {
+  static propTypes = {
+    match: shape({
+      params: shape({
+        editId: string,
+      }).isRequired,
+    }).isRequired,
+    history: shape({
+      push: func,
+    }).isRequired,
+  };
+
+  componentDidMount() {
+    const { editId } = this.props.match.params;
+    const originalChangedData = settingsChangeData(settingsData);
+    if (isEmpty(editId)) {
+      // If no edit Id is provided, then go to new screen
+      this.props.history.push('/NewDTID');
+    } else {
+      // Clear changed tracking
+      store.dispatch(changedInit(cloneDeep(originalChangedData)));
+
+      defer(async () => {
+        const pageTitle = 'DTID Management';
+        store.dispatch(onEditIdChangeAction(editId));
+        store.dispatch(changeTitleAction(pageTitle));
+        const settingsDataImmtJS = Map(fromJS(store.getState().settingsData));
+        const json = await fieldAttributes.validateFieldAttributes('dtid', { parentId: editId });
+        const settings = settingsDataImmtJS.getIn(['sections', 0, 'sections']).toJS();
+        Object.values(json).forEach((j) => {
+          let sections = settings.map((e) => {
+            console.log('e', e);
+            const index = e.settings.findIndex(f => f.key === j.name);
+            if (index > 0) {
+              return e.key;
+            }
+            return null;
+          });
+          console.log('sections', sections.filter(f => f !== null));
+          sections = sections.filter(f => f !== null);
+          if (!isEmpty(sections)) {
+            const sectionIndex = settingsDataImmtJS.getIn(['sections', 0, 'sections']).findIndex(f => f.get('key') === sections[0]);
+            console.log('sectionIndex', sectionIndex);
+          }
+          // const finalData = settingsDataImmtJS
+          //  .setIn(['sections', 0, 'sections']);
+
+          // findIndex(f => f.get('key') === 'documentNumbers');
+          // const name = 'billToDodaac';
+          /*   const accordionSection = settingsDataImmtJS.updateIn
+          (['sections', 0, 'sections'], (set) => {
+            console.log('set', set.toJS());
+            console.log('index', set.findIndex((f) => {
+              console.log('F', f.toJS());
+              const index = f.settings.findIndex(a => a.get('key') === 'billToDodaac');
+              return index;
+            }));
+          }).toJS(); */
+          // .findIndex(m => m.get('key') === name);
+          // console.log('a', accordionSection, j);
+          // console.log(accordionSection, j, name);
+          // const index = mainAccordianSettings.findIndex(f => f.key === `${j.name}`);
+          // const dataPropertiesType = Map(fromJS(mainAccordianSFettings))
+          // .getIn([index], 'dataProperties');
+          // console.log(dataPropertiesType);
+        /*  if (index) {
+            settingsDataImmtJS = settingsDataImmtJS
+              .setIn(['sections', 0, 'sections', 0, 'settings', index, 'required'], j.required)
+              .setIn(['sections', 0, 'sections', 0, 'validationSchema',
+              'properties', j.name, 'required'], j.required)
+              .setIn(['sections', 0, 'sections', 0, 'validationSchema',
+              'properties', j.name, 'allowEmpty'], !j.required);
+          } */
+        });
+        store.dispatch(settingDataAction(settingsDataImmtJS.toJS()));
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    // Clear editId
+    store.dispatch(onEditIdChangeAction(null));
+    defer(() => {
+      // Clear errors
+      store.getState().errors.forEach(error => store.dispatch(removeErrorAction(error)));
+      // Clear data
+      store.dispatch(dataInit(generateEmptyData(settingsData)));
+      // Clear changed tracking
+      const originalChangedData = settingsChangeData(settingsData);
+      store.dispatch(changedInit(cloneDeep(originalChangedData)));
+      // Clear selectedTabKey
+      store.dispatch(onSelectedTabChange((first(settingsData.sections) || {}).key));
+    });
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <div>
+          <EditContainer />
+        </div>
+      </Provider>
+    );
+  }
+}
