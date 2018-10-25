@@ -32,21 +32,6 @@ export default class EditDTID extends PureComponent {
     }
   }
 
-  componentWillUnmount() {
-    // Clear editId
-    store.dispatch(onEditIdChangeAction(null));
-    defer(() => {
-      // Clear errors
-      store.getState().errors.forEach(error => store.dispatch(removeErrorAction(error)));
-      // Clear data
-      store.dispatch(dataInit(generateEmptyData(settingsData)));
-      // Clear changed tracking
-      const originalChangedData = settingsChangeData(settingsData);
-      store.dispatch(changedInit(cloneDeep(originalChangedData)));
-      // Clear selectedTabKey
-      store.dispatch(onSelectedTabChange((first(settingsData.sections) || {}).key));
-    });
-  }
 
   render() {
     return (
