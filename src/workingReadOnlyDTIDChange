@@ -26,7 +26,7 @@ import {
 import { EDIT_MODE } from 'common/Constants';
 import reducers from 'components/Edit/Template-1/reducers';
 import FieldAttributes from 'web/common/fieldAttribute';
-import mapDispatchToProps from './mapDispatchToProps';
+import mapDispatchToProps from 'mapDispatchToProps';
 import originalSettingsData from './settings';
 import sagaDTID from './saga';
 
