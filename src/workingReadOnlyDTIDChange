@@ -1,7 +1,7 @@
 
 
 
-const fieldAttributes = new FieldAttributes();
+const fieldAttributes;
 
 
 const store = createStore(reducers, initialState, applyMiddleware(saga));
