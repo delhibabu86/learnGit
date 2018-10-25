@@ -29,12 +29,6 @@ import sagaDTID from 'saga';
 
 const fieldAttributes = new FieldAttributes();
 
-const stateToProps = state => ({ ...state });
-const saga = createSagaMiddleware();
-const settingsData = cloneDeep(originalSettingsData);
-const initialState = extend(initialStateGenerator(settingsData), {
-  mode: EDIT_MODE,
-});
 
 const store = createStore(reducers, initialState, applyMiddleware(saga));
 saga.run(sagaDTID);
